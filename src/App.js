@@ -10,7 +10,12 @@ class App extends Component {
     this.state ={
       showNote: false
     };
+  }
 
+  toggleNote = () => {
+    this.setState({
+      showNote: ! this.state.showNote
+    });
   }
 
   render() {
@@ -18,7 +23,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Nav />
+        <Nav toggleNote={this.toggleNote} showNote={showNote} />
         { showNote ? <Note /> : <List /> }        
       </div>
     );
