@@ -71,7 +71,7 @@ class Note extends React.Component {
 
 		return (
 			<div className="note-container">
-				<form className="note=form" 
+				<form className="note-form" 
 					onSubmit={(e) => this.onSubmit(e)}
 					onClick={() => closeTagForm()}
 				>
