@@ -8,7 +8,7 @@ class Note extends React.Component {
 			title: this.title.value,
 			content: this.content.value
 		};
-		this.props.submitNote(formData, this.props.note.id1);
+		this.props.submitNote(formData, this.props.note.id);
 	}
 
 	onTagSubmit(e) {
