@@ -11,7 +11,8 @@ class App extends Component {
     super();
     this.state ={
       showNote: false,
-      notes: []
+      notes: [],
+      note: {}
     };
   }
 
@@ -27,6 +28,12 @@ class App extends Component {
       .catch( (err) => console.log(err.response.data) );
   }
 
+  getNote = (id) => {
+    axios.get(urlFor(`notes/${id}`))
+      .then( (res) => this.setState({ note: res.data, showNote: true }) )
+      .catch( (err) => console.log(err.response.data) );
+  }
+
   render() {
     const { showNote, notes } = this.state;
 
@@ -39,6 +46,7 @@ class App extends Component {
           <List 
             getNotes={this.getNotes}
             notes={notes}
+            getNote={this.getNote}
           /> 
         }        
       </div>
