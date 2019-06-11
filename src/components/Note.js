@@ -8,7 +8,7 @@ class Note extends React.Component {
 			title: this.title.value,
 			content: this.content.value
 		};
-		this.props.submitNote(formData, this.props.note.id);
+		this.props.submitNote(formData, this.props.note._id);
 	}
 
 	onTagSubmit(e) {
@@ -16,7 +16,7 @@ class Note extends React.Component {
 		const formData ={
 			name: this.name.value
 		};
-		this.props.submitTag(formData, this.props.note.id)
+		this.props.submitTag(formData, this.props.note._id)
 		this.props.closeTagForm();
 	}
 
@@ -55,7 +55,7 @@ class Note extends React.Component {
 				<div 
 					className="tag" 
 					key={index}
-					onClick={(e) => this.props.deleteTag(note.id, tag.id)}
+					onClick={(e) => this.props.deleteTag(note._id, tag.id)}
 				>
 					<span className="delete">
 						<i className="material-icons">delete</i>
