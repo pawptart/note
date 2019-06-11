@@ -27,22 +27,32 @@ class App extends Component {
   }
 
   getNotes = () => {
-    axios.get(urlFor('notes'))
-      .then( (res) => this.setState({ notes: res.data }) )
-      .catch( (err) => console.log(err.response.data) );
+    axios.get(urlFor(''))
+      .then( (res) => { 
+        if (res) {
+          this.setState({ notes: res.data });
+        } else {
+          this.setState({ notes: '' });
+        }
+      })
+      .catch( (err) => {
+        if (err) {
+          console.log(err);
+        }
+      });
   }
 
   getNote = (id) => {
-    axios.get(urlFor(`notes/${id}`))
+    axios.get(urlFor(`/${id}`))
       .then( (res) => this.setState({ note: res.data, showNote: true }) )
       .catch( (err) => console.log(err.response.data) );
   }
 
   performSubmissionRequest = (data, id) => {
     if (id) {
-      return axios.patch(urlFor(`notes/${id}`), data)
+      return axios.patch(urlFor(`update/${id}`), data)
     } else {
-      return axios.post(urlFor('notes'), data);
+      return axios.post(urlFor('create'), data);
     }
   }
 
@@ -75,7 +85,7 @@ class App extends Component {
   }
 
   submitTag = (data, noteId) => {
-    axios.post(urlFor(`notes/${noteId}/tags`), data)
+    axios.post(urlFor(`/${noteId}/tags`), data)
       .then( (res) => this.getNote(noteId) )
       .catch( (err) => {
         const { errors } = err.response.data;
@@ -86,7 +96,7 @@ class App extends Component {
   }
 
   deleteTag = (noteId, id) => {
-    axios.delete(urlFor(`/tags/${id}`))
+    axios.delete(urlFor(`/${noteId}/tags/${id}`))
       .then( (res) => this.getNote(noteId) )
       .catch( (err) => console.log(err) );
   }
