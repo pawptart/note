@@ -31,21 +31,18 @@ class App extends Component {
       .then( (res) => { 
         if (res) {
           this.setState({ notes: res.data });
-        } else {
-          this.setState({ notes: '' });
-        }
+        } 
       })
-      .catch( (err) => {
-        if (err) {
-          console.log(err);
-        }
-      });
+      .catch( (err) => console.log(err) );
   }
 
   getNote = (id) => {
-    axios.get(urlFor(`/${id}`))
-      .then( (res) => this.setState({ note: res.data, showNote: true }) )
-      .catch( (err) => console.log(err.response.data) );
+    axios.get(urlFor(`${id}`))
+      .then( (res) => { 
+        console.log(res.data);
+        this.setState({ note: res.data[0], showNote: true });
+      })
+      .catch( (err) => console.log(err) );
   }
 
   performSubmissionRequest = (data, id) => {
@@ -59,20 +56,16 @@ class App extends Component {
   submitNote = (data, id) => {
     this.performSubmissionRequest(data, id)
       .then( (res) => this.setState({ showNote: false}) )
-      .catch( (err) => {
-        const { errors } = err.response.data;
-        if (errors.content) {
-          this.setState({ error: "Missing Note Content!" });
-        } else if (errors.title) {
-          this.setState({ error: "Missing Title Content!" });
-        }
-      });
+      .catch( (err) => console.log(err) );
   }
 
   deleteNote = (id) => {
     const newNotesState = this.state.notes.filter((note) => note.id !== id);
-    axios.delete(urlFor(`notes/${id}`))
-      .then( (res) => this.setState({ notes: newNotesState }) )
+    axios.delete(urlFor(`delete/${id}`))
+      .then( (res) => {
+        this.setState({ notes: newNotesState });
+        this.getNotes();
+      })
       .catch( (err) => console.log(err) );
   }
 

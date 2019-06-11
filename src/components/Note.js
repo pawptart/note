@@ -81,12 +81,14 @@ class Note extends React.Component {
 						placeholder="Note Title..."
 						defaultValue={note.title}
 						ref={(input) => this.title = input}
+						required
 					/>
 					<textarea
             className="note-textarea"
             placeholder="Type Here..."
 						defaultValue={note.content}
 						ref={(input) => this.content = input}
+						required
           />
 					<input className="note-button" type="submit" value="Submit" />
 				</form>
