@@ -21,7 +21,7 @@ class Note extends React.Component {
 	}
 
 	renderTagForm(note) {
-		if (note.id !== undefined) {
+		if (note._id !== undefined) {
 			if (!this.props.newTag) {
 				return (
 					<span>

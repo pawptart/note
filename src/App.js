@@ -77,18 +77,13 @@ class App extends Component {
   }
 
   submitTag = (data, noteId) => {
-    axios.post(urlFor(`/${noteId}/tags`), data)
+    axios.post(urlFor(`${noteId}/tags/create`), data)
       .then( (res) => this.getNote(noteId) )
-      .catch( (err) => {
-        const { errors } = err.response.data;
-        if (errors.name) {
-          this.setState({ error: "Missing Tag Name!" });
-        } 
-      });
+      .catch( (err) => console.log(err) );
   }
 
   deleteTag = (noteId, id) => {
-    axios.delete(urlFor(`/${noteId}/tags/${id}`))
+    axios.delete(urlFor(`${noteId}/tags/delete/${id}`))
       .then( (res) => this.getNote(noteId) )
       .catch( (err) => console.log(err) );
   }

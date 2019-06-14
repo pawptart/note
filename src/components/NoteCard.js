@@ -2,11 +2,13 @@ import React from 'react';
 
 class NoteCard extends React.Component {
 	renderTags(note) {
-		// return note.tags.map( (tag, index)  =>
-		// 	<span className="note-card-tag" key={index}>
-		// 		{tag.name}
-		// 	</span>
-		// );
+		if (note.tags) {
+			return note.tags.map( (tag, index)  =>
+				<span className="note-card-tag" key={index}>
+					{tag.name}
+				</span>
+			);
+		}
 	}
 
 	render() {
