@@ -8,7 +8,7 @@ class Note extends React.Component {
 			title: this.title.value,
 			content: this.content.value
 		};
-		this.props.submitNote(formData, this.props.note.id);
+		this.props.submitNote(formData, this.props.note._id);
 	}
 
 	onTagSubmit(e) {
@@ -16,12 +16,12 @@ class Note extends React.Component {
 		const formData ={
 			name: this.name.value
 		};
-		this.props.submitTag(formData, this.props.note.id)
+		this.props.submitTag(formData, this.props.note._id)
 		this.props.closeTagForm();
 	}
 
 	renderTagForm(note) {
-		if (note.id !== undefined) {
+		if (note._id !== undefined) {
 			if (!this.props.newTag) {
 				return (
 					<span>
@@ -55,7 +55,7 @@ class Note extends React.Component {
 				<div 
 					className="tag" 
 					key={index}
-					onClick={(e) => this.props.deleteTag(note.id, tag.id)}
+					onClick={(e) => this.props.deleteTag(note._id, tag.id)}
 				>
 					<span className="delete">
 						<i className="material-icons">delete</i>
@@ -81,12 +81,14 @@ class Note extends React.Component {
 						placeholder="Note Title..."
 						defaultValue={note.title}
 						ref={(input) => this.title = input}
+						required
 					/>
 					<textarea
             className="note-textarea"
             placeholder="Type Here..."
 						defaultValue={note.content}
 						ref={(input) => this.content = input}
+						required
           />
 					<input className="note-button" type="submit" value="Submit" />
 				</form>

@@ -27,42 +27,44 @@ class App extends Component {
   }
 
   getNotes = () => {
-    axios.get(urlFor('notes'))
-      .then( (res) => this.setState({ notes: res.data }) )
-      .catch( (err) => console.log(err.response.data) );
+    axios.get(urlFor(''))
+      .then( (res) => { 
+        if (res) {
+          this.setState({ notes: res.data });
+        } 
+      })
+      .catch( (err) => console.log(err) );
   }
 
   getNote = (id) => {
-    axios.get(urlFor(`notes/${id}`))
-      .then( (res) => this.setState({ note: res.data, showNote: true }) )
-      .catch( (err) => console.log(err.response.data) );
+    axios.get(urlFor(`${id}`))
+      .then( (res) => { 
+        this.setState({ note: res.data[0], showNote: true });
+      })
+      .catch( (err) => console.log(err) );
   }
 
   performSubmissionRequest = (data, id) => {
     if (id) {
-      return axios.patch(urlFor(`notes/${id}`), data)
+      return axios.patch(urlFor(`update/${id}`), data)
     } else {
-      return axios.post(urlFor('notes'), data);
+      return axios.post(urlFor('create'), data);
     }
   }
 
   submitNote = (data, id) => {
     this.performSubmissionRequest(data, id)
       .then( (res) => this.setState({ showNote: false}) )
-      .catch( (err) => {
-        const { errors } = err.response.data;
-        if (errors.content) {
-          this.setState({ error: "Missing Note Content!" });
-        } else if (errors.title) {
-          this.setState({ error: "Missing Title Content!" });
-        }
-      });
+      .catch( (err) => console.log(err) );
   }
 
   deleteNote = (id) => {
     const newNotesState = this.state.notes.filter((note) => note.id !== id);
-    axios.delete(urlFor(`notes/${id}`))
-      .then( (res) => this.setState({ notes: newNotesState }) )
+    axios.delete(urlFor(`delete/${id}`))
+      .then( (res) => {
+        this.setState({ notes: newNotesState });
+        this.getNotes();
+      })
       .catch( (err) => console.log(err) );
   }
 
@@ -75,18 +77,13 @@ class App extends Component {
   }
 
   submitTag = (data, noteId) => {
-    axios.post(urlFor(`notes/${noteId}/tags`), data)
+    axios.post(urlFor(`${noteId}/tags/create`), data)
       .then( (res) => this.getNote(noteId) )
-      .catch( (err) => {
-        const { errors } = err.response.data;
-        if (errors.name) {
-          this.setState({ error: "Missing Tag Name!" });
-        } 
-      });
+      .catch( (err) => console.log(err) );
   }
 
   deleteTag = (noteId, id) => {
-    axios.delete(urlFor(`/tags/${id}`))
+    axios.delete(urlFor(`${noteId}/tags/delete/${id}`))
       .then( (res) => this.getNote(noteId) )
       .catch( (err) => console.log(err) );
   }

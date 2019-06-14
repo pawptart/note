@@ -8,8 +8,8 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0"
   },
-  "scripts": {
-    "start": "CHOKIDAR_USEPOLLING=true react-scripts start",
+  "scripts": {   
+    "start": "CHOKIDAR_USEPOLLING=true react-scripts start", 
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
